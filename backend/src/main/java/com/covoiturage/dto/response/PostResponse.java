@@ -1,0 +1,1 @@
+package com.covoiturage.dto.response; import com.covoiturage.model.enums.*; import java.math.BigDecimal; import java.time.*; public record PostResponse(Long id,PostType type,String origin,String destination,LocalDate departureDate,LocalTime departureTime,Integer seatsAvailable,BigDecimal price,String description,PostStatus status,Long authorId,String authorName){}

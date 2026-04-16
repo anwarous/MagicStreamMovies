@@ -1,0 +1,68 @@
+@startuml
+skinparam classAttributeIconSize 0
+enum Role { USER; ADMIN }
+enum PostType { OFFER; REQUEST }
+enum PostStatus { ACTIVE; FULL; CANCELLED; COMPLETED }
+enum NotifType { NEW_MESSAGE; POST_RESPONSE }
+
+class User {
+  -id: Long
+  -firstName: String
+  -lastName: String
+  -email: String
+  -passwordHash: String
+  -phone: String
+  -bio: String
+  -avatarUrl: String
+  -hasVehicle: Boolean
+  -createdAt: LocalDateTime
+  -role: Role
+  +getFullName(): String
+}
+class Vehicle {
+  -id: Long
+  -brand: String
+  -model: String
+  -color: String
+  -licensePlate: String
+  -seats: Integer
+}
+class Post {
+  -id: Long
+  -type: PostType
+  -origin: String
+  -destination: String
+  -departureDate: LocalDate
+  -departureTime: LocalTime
+  -seatsAvailable: Integer
+  -price: BigDecimal
+  -description: String
+  -status: PostStatus
+  -createdAt: LocalDateTime
+}
+class Conversation {
+  -id: Long
+  -createdAt: LocalDateTime
+}
+class Message {
+  -id: Long
+  -content: String
+  -sentAt: LocalDateTime
+  -isRead: Boolean
+}
+class Notification {
+  -id: Long
+  -type: NotifType
+  -payload: String
+  -isRead: Boolean
+  -createdAt: LocalDateTime
+}
+
+User "1" --> "0..1" Vehicle : owns >
+User "1" --> "0..*" Post : authors >
+Conversation "0..*" --> "1..*" User : participants >
+Conversation "0..*" --> "0..1" Post : related to >
+Conversation "1" --> "0..*" Message : contains >
+Message "*" --> "1" User : sender >
+Notification "*" --> "1" User : recipient >
+@enduml

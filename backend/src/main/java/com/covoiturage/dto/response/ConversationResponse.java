@@ -1,0 +1,1 @@
+package com.covoiturage.dto.response; import java.time.LocalDateTime; import java.util.List; public record ConversationResponse(Long id,List<Long> participantIds,Long postId,LocalDateTime createdAt){}

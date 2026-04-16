@@ -1,0 +1,58 @@
+@startuml
+left to right direction
+actor Guest
+actor Driver
+actor Passenger
+actor Admin
+
+rectangle "Covoiturage Platform" {
+  usecase "Register / Sign Up" as UC1
+  usecase "Log In / Sign Out" as UC2
+  usecase "Browse ride offers" as UC3
+  usecase "Search offers by city/date/seats" as UC4
+  usecase "Post a ride offer" as UC5
+  usecase "Post a ride request" as UC6
+  usecase "View all posts (filterable)" as UC7
+  usecase "View post detail" as UC8
+  usecase "Contact via in-app messaging" as UC9
+  usecase "View conversation thread" as UC10
+  usecase "Edit own profile" as UC11
+  usecase "View other user profile" as UC12
+  usecase "Edit / Delete own post" as UC13
+  usecase "Mark ride full/completed" as UC14
+  usecase "Toggle dark/light theme" as UC15
+  usecase "Receive real-time message badge" as UC16
+}
+
+Guest --> UC1
+Guest --> UC2
+Guest --> UC3
+Guest --> UC4
+Guest --> UC7
+Guest --> UC8
+Guest --> UC12
+Guest --> UC15
+Driver --> UC2
+Driver --> UC5
+Driver --> UC7
+Driver --> UC8
+Driver --> UC9
+Driver --> UC10
+Driver --> UC11
+Driver --> UC13
+Driver --> UC14
+Driver --> UC15
+Driver --> UC16
+Passenger --> UC2
+Passenger --> UC6
+Passenger --> UC7
+Passenger --> UC8
+Passenger --> UC9
+Passenger --> UC10
+Passenger --> UC11
+Passenger --> UC13
+Passenger --> UC15
+Passenger --> UC16
+Admin --> UC7
+Admin --> UC12
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+actor User
+participant Frontend
+participant "POST /api/posts" as API
+participant JwtAuthFilter
+participant PostController
+participant PostService
+participant PostRepository
+database DB
+User -> Frontend: Fill offer form + submit
+Frontend -> API: POST /api/posts
+API -> JwtAuthFilter: Validate bearer JWT
+JwtAuthFilter --> API: Principal ok
+API -> PostController: createPost(request)
+PostController -> PostService: createPost(userId, dto)
+PostService -> PostRepository: save(post)
+PostRepository -> DB: INSERT posts
+DB --> PostRepository: persisted post
+PostRepository --> PostService: Post
+PostService --> PostController: PostResponse
+PostController --> Frontend: 201 Created
+Frontend --> User: UI feed refresh
+@enduml
