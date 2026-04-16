@@ -1,0 +1,31 @@
+@startuml
+actor User
+participant Frontend
+participant ConversationController
+participant ConversationService
+participant ConversationRepository
+participant MessageController
+participant MessageService
+database DB
+User -> Frontend: Contact driver
+Frontend -> ConversationController: POST /api/conversations
+ConversationController -> ConversationService: startOrGet(participantId, postId)
+ConversationService -> ConversationRepository: findExisting(...)
+alt exists
+  ConversationRepository --> ConversationService: existing conversation
+else missing
+  ConversationService -> ConversationRepository: save(new Conversation)
+  ConversationRepository -> DB: INSERT conversation + participants
+  DB --> ConversationRepository: conversation id
+end
+ConversationService --> ConversationController: conversationId
+ConversationController --> Frontend: 200 with conversationId
+Frontend -> Frontend: navigate /messages/{id}
+Frontend -> MessageController: GET /api/conversations/{id}/messages?page=0&size=20
+MessageController -> MessageService: getMessages(id,page)
+MessageService -> DB: SELECT paginated messages
+DB --> MessageService: message page
+MessageService --> MessageController: MessageResponse[]
+MessageController --> Frontend: 200
+Frontend --> User: render thread
+@enduml

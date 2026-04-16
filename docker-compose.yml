@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: covoiturage_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+    volumes: ["pgdata:/var/lib/postgresql/data","./init.sql:/docker-entrypoint-initdb.d/init.sql"]
+    ports: ["5432:5432"]
+    networks: [covoit-net]
+  backend:
+    build: ./backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/covoiturage_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: yourpassword
+    ports: ["8080:8080"]
+    depends_on: [db]
+    networks: [covoit-net]
+  frontend:
+    build: ./frontend
+    ports: ["5173:80"]
+    depends_on: [backend]
+    networks: [covoit-net]
+networks: {covoit-net: {driver: bridge}}
+volumes: {pgdata: {}}

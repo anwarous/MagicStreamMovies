@@ -1,0 +1,29 @@
+@startuml
+node "Browser" {
+  component "React SPA (Vite)"
+  component "Axios REST + STOMP/SockJS"
+}
+node "Spring Boot App :8080" {
+  component "Security Layer
+Spring Security + JWT Filter"
+  component "REST Controllers"
+  component "Service Layer"
+  component "Repository Layer
+Spring Data JPA"
+  component "WebSocket Config
+STOMP Broker"
+  component "Exception Handler
+@ControllerAdvice"
+}
+database "PostgreSQL :5432
+schema covoiturage_db" as PG
+folder "Static Files" {
+  artifact "/uploads or Cloudinary"
+}
+"React SPA (Vite)" --> "REST Controllers"
+"Axios REST + STOMP/SockJS" --> "WebSocket Config
+STOMP Broker"
+"Repository Layer
+Spring Data JPA" --> PG
+"REST Controllers" --> "/uploads or Cloudinary"
+@enduml

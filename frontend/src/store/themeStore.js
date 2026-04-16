@@ -1,0 +1,1 @@
+import { create } from "zustand"; export const useThemeStore=create(set=>({theme:localStorage.getItem("theme")||"light",toggle:()=>set(s=>{const t=s.theme==="light"?"dark":"light";localStorage.setItem("theme",t);return {theme:t};})}));

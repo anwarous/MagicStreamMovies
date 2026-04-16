@@ -1,0 +1,1 @@
+package com.covoiturage.dto.request; import com.covoiturage.model.enums.PostType; import java.math.BigDecimal; import java.time.*; public record PostRequest(PostType type,String origin,String destination,LocalDate departureDate,LocalTime departureTime,Integer seatsAvailable,BigDecimal price,String description){}

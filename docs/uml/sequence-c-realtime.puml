@@ -1,0 +1,23 @@
+@startuml
+actor UserA
+actor UserB
+participant "Client A" as CA
+participant "Client B" as CB
+participant "STOMP /app/chat/{id}" as STOMP
+participant MessageController
+participant MessageService
+database DB
+participant "Broker /topic/conversation/{id}" as Broker
+UserA -> CA: type message + send
+CA -> STOMP: SEND /app/chat/{conversationId}
+STOMP -> MessageController: inbound payload
+MessageController -> MessageService: persist(conversationId, content)
+MessageService -> DB: INSERT message
+DB --> MessageService: saved message
+MessageService --> MessageController: MessageResponse
+MessageController -> Broker: broadcast response
+Broker --> CA: MESSAGE frame
+Broker --> CB: MESSAGE frame
+CA --> UserA: UI append without reload
+CB --> UserB: UI append without reload
+@enduml
